@@ -14,6 +14,17 @@ button{font:inherit;color:inherit;cursor:pointer}.shell{max-width:1120px;margin:
 .layout{display:grid;grid-template-columns:220px 1fr;gap:14px}.nav{display:flex;flex-direction:column;gap:8px}.nav button{background:#130e19;border:1px solid var(--line);border-radius:12px;padding:13px;text-align:left;font-weight:800;color:#d8ccdf}.nav button.active{border-color:var(--red);background:linear-gradient(90deg,#47121e,#24112f);box-shadow:var(--glow);color:#fff}.nav b{display:inline-block;width:28px;font-size:17px}.content{min-width:0}.section{display:none}.section.active{display:block}.section-head{margin:2px 0 12px}.section-head h3{font-size:20px;margin:0 0 4px}.section-head p{font-size:12px;color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card h4{margin:0 0 6px;font-size:14px}.card p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.action{margin-top:12px;border:1px solid #81305e;background:#211127;border-radius:10px;padding:9px 12px;font-size:11px;font-weight:800}.switchrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.switchrow:last-child{border:0}.switchrow strong{font-size:13px}.switchrow small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.switch{width:46px;height:26px;border:0;border-radius:20px;background:#51465b;padding:3px;flex:none}.switch:after{content:"";display:block;width:20px;height:20px;background:#fff;border-radius:50%;transition:.2s}.switch.on{background:linear-gradient(90deg,var(--red),var(--purple))}.switch.on:after{transform:translateX(20px)}
 .notice{margin-top:14px;border:1px solid #684a23;background:#21180d;color:#f1d9a9;border-radius:12px;padding:12px;font-size:11px;line-height:1.5}.footer{text-align:center;color:#817689;font-size:10px;padding:22px 0 8px;letter-spacing:1px}
 @media(max-width:700px){.shell{padding:13px}.stats{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.nav{display:grid;grid-template-columns:repeat(3,1fr)}.nav button{text-align:center;padding:10px 4px;font-size:10px}.nav b{display:block;width:auto;margin-bottom:4px}.grid{grid-template-columns:1fr}.hero{padding:18px}.live{font-size:9px}}
+
+body.no-neon .hero,body.no-neon .stat,body.no-neon .card{box-shadow:none}
+body.no-neon .turbo{box-shadow:none}
+body.no-animations *,body.no-animations *:before,body.no-animations *:after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+body.light-theme{background:#eee8f2;color:#211629}
+body.light-theme .hero,body.light-theme .stat,body.light-theme .card,body.light-theme .nav button{background:#fff;color:#211629;border-color:#d7c5dc}
+body.light-theme .hero p,body.light-theme .section-head p,body.light-theme .card p,body.light-theme .stat small{color:#66566c}
+body.light-theme .nav button.active{background:linear-gradient(90deg,#ffe1e6,#eadbff);color:#24102d}
+body.game-focus .hero{border-color:#ff5269;box-shadow:0 0 30px #ff263d66,0 0 35px #a52bff55}
+body.game-focus .hero h2{text-shadow:0 0 18px #ff263d77}
+
 </style>
 </head>
 <body>
@@ -26,13 +37,13 @@ button{font:inherit;color:inherit;cursor:pointer}.shell{max-width:1120px;margin:
  <div class="hero-label">◆ CENTRAL DE JOGOS</div>
  <h2>JOGUE COM <span>ESTILO.</span></h2>
  <p>Seu espaço gamer: atalhos, informações e ajustes organizados em um só lugar.</p>
- <button class="turbo" id="turbo">🚀 ATIVAR MODO GAME</button>
+ <button class="turbo" id="turbo">🚀 ATIVAR MODO GAME</button><div id="gameModeStatus" class="hero-label" style="display:none;margin-top:12px;color:#a9ffbf">● MODO FOCO ATIVO — INTERFACE DE JOGO</div>
 </section>
 <div class="stats">
  <div class="stat"><div class="ico">📱</div><small>DISPOSITIVO</small><strong id="device">Detectando</strong><em>Informação do navegador</em></div>
  <div class="stat"><div class="ico">🌐</div><small>CONEXÃO</small><strong id="connection">—</strong><em id="connectionHint">Status disponível no navegador</em></div>
  <div class="stat"><div class="ico">🔋</div><small>BATERIA</small><strong id="battery">—</strong><em id="batteryHint">Quando suportado</em></div>
- <div class="stat"><div class="ico">🖥️</div><small>TELA</small><strong id="screen">—</strong><em>Resolução em pixels</em></div>
+ <div class="stat"><div class="ico">🖥️</div><small>TELA / VISUALIZAÇÃO</small><strong id="screen">—</strong><em id="screenHint">Pixels CSS</em></div>
 </div>
 <div class="layout">
  <nav class="nav" aria-label="Menu principal">
@@ -61,7 +72,7 @@ button{font:inherit;color:inherit;cursor:pointer}.shell{max-width:1120px;margin:
    <div id="gameList" class="grid" style="margin-top:10px"></div>
   </section>
   <section class="section" id="performance">
-   <div class="section-head"><h3>⚡ Central de desempenho</h3><p>Atalhos e lembretes úteis para cuidar do aparelho.</p></div>
+   <div class="section-head"><h3>⚡ Dicas de desempenho</h3><p>Orientações para cuidar do aparelho. Estas dicas não são comandos de otimização automática.</p></div>
    <div class="grid">
     <div class="card"><h4>🧹 Organização</h4><p>Feche aplicativos que não estiver usando pelas configurações do sistema.</p></div>
     <div class="card"><h4>🌡️ Temperatura</h4><p>Se o aparelho esquentar, faça uma pausa e deixe-o esfriar em local ventilado.</p></div>
@@ -70,12 +81,13 @@ button{font:inherit;color:inherit;cursor:pointer}.shell{max-width:1120px;margin:
    </div>
   </section>
   <section class="section" id="settings">
-   <div class="section-head"><h3>⚙️ Ajustes do painel</h3><p>Esses controles mudam a interface deste site.</p></div>
+   <div class="section-head"><h3>⚙️ Ajustes do painel</h3><p>Cada opção altera a aparência desta página.</p></div>
    <div class="card">
-    <div class="switchrow"><div><strong>✨ Efeitos neon</strong><small>Realce visual dos cartões</small></div><button class="switch on" aria-label="Alternar efeitos neon" aria-pressed="true"></button></div>
-    <div class="switchrow"><div><strong>🔔 Animações leves</strong><small>Transições da interface</small></div><button class="switch on" aria-label="Alternar animações" aria-pressed="true"></button></div>
-    <div class="switchrow"><div><strong>🌙 Fundo escuro</strong><small>Visual Red & Purple</small></div><button class="switch on" aria-label="Alternar fundo escuro" aria-pressed="true"></button></div>
+    <div class="switchrow"><div><strong>✨ Efeitos neon</strong><small>Ativa ou reduz os brilhos dos cartões e botões</small></div><button class="switch on" data-setting="neon" aria-label="Alternar efeitos neon" aria-pressed="true"></button></div>
+    <div class="switchrow"><div><strong>🎞️ Animações</strong><small>Ativa ou desativa as transições visuais</small></div><button class="switch on" data-setting="animations" aria-label="Alternar animações" aria-pressed="true"></button></div>
+    <div class="switchrow"><div><strong>🌗 Tema escuro</strong><small>Alterna entre tema escuro e claro</small></div><button class="switch on" data-setting="dark" aria-label="Alternar tema escuro" aria-pressed="true"></button></div>
    </div>
+   <p class="notice">Essas opções personalizam somente o painel no navegador. Elas não alteram as configurações internas do Android.</p>
   </section>
   <section class="section" id="device">
    <div class="section-head"><h3>📱 Informações do aparelho</h3><p>Dados básicos fornecidos pelo navegador, quando disponíveis.</p></div>
@@ -83,8 +95,8 @@ button{font:inherit;color:inherit;cursor:pointer}.shell{max-width:1120px;margin:
   </section>
   <section class="section" id="about">
    <div class="section-head"><h3>👑 Sobre o projeto</h3></div>
-   <div class="card"><h4>PAINEL GAME — RED & PURPLE</h4><p>Uma interface gamer independente, feita em HTML, CSS e JavaScript. Funciona no navegador e se adapta a celulares e computadores.</p></div>
-   <div class="notice">Importante: este painel é uma interface web. O botão Modo Game não altera configurações internas, não aumenta FPS de verdade e não modifica a memória ou a temperatura do aparelho. Use as configurações oficiais do seu celular para esses ajustes.</div>
+   <div class="card"><h4>PAINEL GAME — RED & PURPLE</h4><p>Uma interface gamer independente, feita em HTML, CSS e JavaScript. Funciona no navegador e se adapta a celulares e computadores.</p><div style="margin-top:16px;padding:13px;border:1px solid #8b2a78;border-radius:12px;background:linear-gradient(100deg,#3b101c,#24103d);text-align:center"><small style="letter-spacing:2px;color:#d9b5ec">CRIADO POR</small><div style="font-size:24px;font-weight:950;font-style:italic;margin-top:4px">VYCTOR <span style="color:#ff354f">GLOWUP</span></div></div></div>
+   <div class="notice">Importante: este painel é uma interface web. O Modo Game ativa um visual de foco dentro desta página. Ele não altera configurações internas, não aumenta FPS de verdade e não modifica a memória ou a temperatura do aparelho. Use as configurações oficiais do seu celular para esses ajustes.</div>
   </section>
  </main>
 </div>
@@ -95,14 +107,29 @@ const pages=[...document.querySelectorAll('.section')], nav=[...document.querySe
 function go(id){pages.forEach(p=>p.classList.toggle('active',p.id===id));nav.forEach(b=>b.classList.toggle('active',b.dataset.page===id));}
 nav.forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
-const turbo=document.getElementById('turbo');turbo.addEventListener('click',()=>{const on=turbo.classList.toggle('active');turbo.textContent=on?'✓ MODO GAME ATIVADO NA INTERFACE':'🚀 ATIVAR MODO GAME';});
-document.querySelectorAll('.switch').forEach(b=>b.addEventListener('click',()=>{const on=b.classList.toggle('on');b.setAttribute('aria-pressed',String(on));}));
+const turbo=document.getElementById('turbo');
+const gameModeStatus=document.getElementById('gameModeStatus');
+turbo.addEventListener('click',()=>{
+ const on=turbo.classList.toggle('active');
+ document.body.classList.toggle('game-focus',on);
+ gameModeStatus.style.display=on?'block':'none';
+ turbo.textContent=on?'✓ DESATIVAR MODO FOCO':'🚀 ATIVAR MODO GAME';
+});
+document.querySelectorAll('.switch[data-setting]').forEach(b=>b.addEventListener('click',()=>{
+ const on=b.classList.toggle('on'); b.setAttribute('aria-pressed',String(on));
+ if(b.dataset.setting==='neon') document.body.classList.toggle('no-neon',!on);
+ if(b.dataset.setting==='animations') document.body.classList.toggle('no-animations',!on);
+ if(b.dataset.setting==='dark') document.body.classList.toggle('light-theme',!on);
+}));
 const ua=navigator.userAgent||'Navegador';document.getElementById('device').textContent=/Android/i.test(ua)?'Android':/iPhone|iPad/i.test(ua)?'iOS':'Dispositivo';
-document.getElementById('screen').textContent=screen.width+' × '+screen.height;
+const dpr=window.devicePixelRatio||1;
+const physicalW=Math.round(screen.width*dpr), physicalH=Math.round(screen.height*dpr);
+document.getElementById('screen').textContent=physicalW+' × '+physicalH;
+document.getElementById('screenHint').textContent=screen.width+' × '+screen.height+' CSS px • DPR '+dpr.toFixed(2);
 const conn=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
 if(conn){document.getElementById('connection').textContent=conn.effectiveType||'Disponível';document.getElementById('connectionHint').textContent=conn.downlink?conn.downlink+' Mb/s estimados':'Tipo de rede';}else{document.getElementById('connection').textContent='Não disponível';}
 if(navigator.getBattery){navigator.getBattery().then(b=>{function upd(){document.getElementById('battery').textContent=Math.round(b.level*100)+'%';document.getElementById('batteryHint').textContent=b.charging?'Carregando':'Não está carregando';}upd();b.addEventListener('levelchange',upd);b.addEventListener('chargingchange',upd);}).catch(()=>document.getElementById('battery').textContent='Indisponível');}else{document.getElementById('battery').textContent='Indisponível';}
-const details=document.getElementById('deviceDetails');details.innerHTML='<div class="switchrow"><div><strong>Sistema/navegador</strong><small></small></div><span>🌐</span></div><p style="overflow-wrap:anywhere">'+ua.replace(/</g,'&lt;')+'</p><div class="switchrow"><div><strong>Resolução da tela</strong><small>'+screen.width+' × '+screen.height+' pixels</small></div><span>▣</span></div><div class="switchrow"><div><strong>Idioma</strong><small>'+navigator.language+'</small></div><span>文</span></div><div class="switchrow"><div><strong>Memória do dispositivo</strong><small>'+(navigator.deviceMemory?navigator.deviceMemory+' GB (estimativa do navegador)':'Não informada pelo navegador')+'</small></div><span>◈</span></div>';
+const details=document.getElementById('deviceDetails');details.innerHTML='<div class="switchrow"><div><strong>Sistema/navegador</strong><small></small></div><span>🌐</span></div><p style="overflow-wrap:anywhere">'+ua.replace(/</g,'&lt;')+'</p><div class="switchrow"><div><strong>Área do navegador</strong><small>'+screen.width+' × '+screen.height+' pixels CSS</small></div><span>▣</span></div><div class="switchrow"><div><strong>Resolução física estimada</strong><small>'+Math.round(screen.width*dpr)+' × '+Math.round(screen.height*dpr)+' pixels • DPR '+dpr.toFixed(2)+'</small></div><span>📱</span></div><div class="switchrow"><div><strong>Idioma</strong><small>'+navigator.language+'</small></div><span>文</span></div><div class="switchrow"><div><strong>Memória do dispositivo</strong><small>'+(navigator.deviceMemory?navigator.deviceMemory+' GB (estimativa do navegador)':'Não informada pelo navegador')+'</small></div><span>◈</span></div>';
 document.getElementById('addGame').addEventListener('click',()=>{const name=document.getElementById('gameName').value.trim(),url=document.getElementById('gameUrl').value.trim();if(!name||!url){alert('Preencha o nome e o endereço do jogo.');return;}try{const u=new URL(url);if(u.protocol!=='https:')throw 0;const card=document.createElement('div');card.className='card';const h=document.createElement('h4');h.textContent='🎮 '+name;const p=document.createElement('p');p.textContent=u.hostname;const a=document.createElement('a');a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';a.className='action';a.style.display='inline-block';a.textContent='ABRIR JOGO ↗';card.append(h,p,a);document.getElementById('gameList').append(card);document.getElementById('gameName').value='';document.getElementById('gameUrl').value='';}catch(e){alert('Use um endereço válido começando com https://');}});
 </script>
 </body></html>
