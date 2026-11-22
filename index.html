@@ -22,28 +22,24 @@ body.light-theme{background:#eee8f2;color:#211629}
 body.light-theme .hero,body.light-theme .stat,body.light-theme .card,body.light-theme .nav button{background:#fff;color:#211629;border-color:#d7c5dc}
 body.light-theme .hero p,body.light-theme .section-head p,body.light-theme .card p,body.light-theme .stat small{color:#66566c}
 body.light-theme .nav button.active{background:linear-gradient(90deg,#ffe1e6,#eadbff);color:#24102d}
-body.game-focus .hero{border-color:#ff5269;box-shadow:0 0 30px #ff263d66,0 0 35px #a52bff55}
-body.game-focus .hero h2{text-shadow:0 0 18px #ff263d77}
 
 </style>
 </head>
 <body>
 <div class="shell">
 <header class="top">
- <div class="brand"><div class="crown">♛</div><div><h1>PAINEL <span>GAME</span></h1><small>RED & PURPLE EDITION</small></div></div>
+ <div class="brand"><div class="crown">♛</div><div><h1>PAINEL <span>GAME</span></h1><small style="letter-spacing:1.5px">DESENVOLVEDOR: VYCTOR GLOWUP</small></div></div>
  <div class="live"><i></i> INTERFACE ONLINE</div>
 </header>
 <section class="hero">
  <div class="hero-label">◆ CENTRAL DE JOGOS</div>
  <h2>JOGUE COM <span>ESTILO.</span></h2>
  <p>Seu espaço gamer: atalhos, informações e ajustes organizados em um só lugar.</p>
- <button class="turbo" id="turbo">🚀 ATIVAR MODO GAME</button><div id="gameModeStatus" class="hero-label" style="display:none;margin-top:12px;color:#a9ffbf">● MODO FOCO ATIVO — INTERFACE DE JOGO</div>
 </section>
 <div class="stats">
  <div class="stat"><div class="ico">📱</div><small>DISPOSITIVO</small><strong id="device">Detectando</strong><em>Informação do navegador</em></div>
  <div class="stat"><div class="ico">🌐</div><small>CONEXÃO</small><strong id="connection">—</strong><em id="connectionHint">Status disponível no navegador</em></div>
  <div class="stat"><div class="ico">🔋</div><small>BATERIA</small><strong id="battery">—</strong><em id="batteryHint">Quando suportado</em></div>
- <div class="stat"><div class="ico">🖥️</div><small>TELA / VISUALIZAÇÃO</small><strong id="screen">—</strong><em id="screenHint">Pixels CSS</em></div>
 </div>
 <div class="layout">
  <nav class="nav" aria-label="Menu principal">
@@ -95,8 +91,8 @@ body.game-focus .hero h2{text-shadow:0 0 18px #ff263d77}
   </section>
   <section class="section" id="about">
    <div class="section-head"><h3>👑 Sobre o projeto</h3></div>
-   <div class="card"><h4>PAINEL GAME — RED & PURPLE</h4><p>Uma interface gamer independente, feita em HTML, CSS e JavaScript. Funciona no navegador e se adapta a celulares e computadores.</p><div style="margin-top:16px;padding:13px;border:1px solid #8b2a78;border-radius:12px;background:linear-gradient(100deg,#3b101c,#24103d);text-align:center"><small style="letter-spacing:2px;color:#d9b5ec">CRIADO POR</small><div style="font-size:24px;font-weight:950;font-style:italic;margin-top:4px">VYCTOR <span style="color:#ff354f">GLOWUP</span></div></div></div>
-   <div class="notice">Importante: este painel é uma interface web. O Modo Game ativa um visual de foco dentro desta página. Ele não altera configurações internas, não aumenta FPS de verdade e não modifica a memória ou a temperatura do aparelho. Use as configurações oficiais do seu celular para esses ajustes.</div>
+   <div class="card"><h4>PAINEL GAME — RED & PURPLE</h4><p>Uma interface gamer independente, feita em HTML, CSS e JavaScript. Funciona no navegador e se adapta a celulares e computadores.</p></div>
+   <div class="notice">Importante: este painel é uma interface web. Ele organiza atalhos, informações disponíveis no navegador e opções visuais. Não altera configurações internas do Android nem aumenta FPS ou memória do aparelho.</div>
   </section>
  </main>
 </div>
@@ -107,14 +103,7 @@ const pages=[...document.querySelectorAll('.section')], nav=[...document.querySe
 function go(id){pages.forEach(p=>p.classList.toggle('active',p.id===id));nav.forEach(b=>b.classList.toggle('active',b.dataset.page===id));}
 nav.forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
-const turbo=document.getElementById('turbo');
-const gameModeStatus=document.getElementById('gameModeStatus');
-turbo.addEventListener('click',()=>{
- const on=turbo.classList.toggle('active');
- document.body.classList.toggle('game-focus',on);
- gameModeStatus.style.display=on?'block':'none';
- turbo.textContent=on?'✓ DESATIVAR MODO FOCO':'🚀 ATIVAR MODO GAME';
-});
+
 document.querySelectorAll('.switch[data-setting]').forEach(b=>b.addEventListener('click',()=>{
  const on=b.classList.toggle('on'); b.setAttribute('aria-pressed',String(on));
  if(b.dataset.setting==='neon') document.body.classList.toggle('no-neon',!on);
@@ -122,14 +111,11 @@ document.querySelectorAll('.switch[data-setting]').forEach(b=>b.addEventListener
  if(b.dataset.setting==='dark') document.body.classList.toggle('light-theme',!on);
 }));
 const ua=navigator.userAgent||'Navegador';document.getElementById('device').textContent=/Android/i.test(ua)?'Android':/iPhone|iPad/i.test(ua)?'iOS':'Dispositivo';
-const dpr=window.devicePixelRatio||1;
-const physicalW=Math.round(screen.width*dpr), physicalH=Math.round(screen.height*dpr);
-document.getElementById('screen').textContent=physicalW+' × '+physicalH;
-document.getElementById('screenHint').textContent=screen.width+' × '+screen.height+' CSS px • DPR '+dpr.toFixed(2);
+
 const conn=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
 if(conn){document.getElementById('connection').textContent=conn.effectiveType||'Disponível';document.getElementById('connectionHint').textContent=conn.downlink?conn.downlink+' Mb/s estimados':'Tipo de rede';}else{document.getElementById('connection').textContent='Não disponível';}
 if(navigator.getBattery){navigator.getBattery().then(b=>{function upd(){document.getElementById('battery').textContent=Math.round(b.level*100)+'%';document.getElementById('batteryHint').textContent=b.charging?'Carregando':'Não está carregando';}upd();b.addEventListener('levelchange',upd);b.addEventListener('chargingchange',upd);}).catch(()=>document.getElementById('battery').textContent='Indisponível');}else{document.getElementById('battery').textContent='Indisponível';}
-const details=document.getElementById('deviceDetails');details.innerHTML='<div class="switchrow"><div><strong>Sistema/navegador</strong><small></small></div><span>🌐</span></div><p style="overflow-wrap:anywhere">'+ua.replace(/</g,'&lt;')+'</p><div class="switchrow"><div><strong>Área do navegador</strong><small>'+screen.width+' × '+screen.height+' pixels CSS</small></div><span>▣</span></div><div class="switchrow"><div><strong>Resolução física estimada</strong><small>'+Math.round(screen.width*dpr)+' × '+Math.round(screen.height*dpr)+' pixels • DPR '+dpr.toFixed(2)+'</small></div><span>📱</span></div><div class="switchrow"><div><strong>Idioma</strong><small>'+navigator.language+'</small></div><span>文</span></div><div class="switchrow"><div><strong>Memória do dispositivo</strong><small>'+(navigator.deviceMemory?navigator.deviceMemory+' GB (estimativa do navegador)':'Não informada pelo navegador')+'</small></div><span>◈</span></div>';
+const details=document.getElementById('deviceDetails');details.innerHTML='<div class="switchrow"><div><strong>Sistema/navegador</strong><small></small></div><span>🌐</span></div><p style="overflow-wrap:anywhere">'+ua.replace(/</g,'&lt;')+'</p><div class="switchrow"><div><strong>Idioma</strong><small>'+navigator.language+'</small></div><span>文</span></div><div class="switchrow"><div><strong>Memória do dispositivo</strong><small>'+(navigator.deviceMemory?navigator.deviceMemory+' GB (estimativa do navegador)':'Não informada pelo navegador')+'</small></div><span>◈</span></div>';
 document.getElementById('addGame').addEventListener('click',()=>{const name=document.getElementById('gameName').value.trim(),url=document.getElementById('gameUrl').value.trim();if(!name||!url){alert('Preencha o nome e o endereço do jogo.');return;}try{const u=new URL(url);if(u.protocol!=='https:')throw 0;const card=document.createElement('div');card.className='card';const h=document.createElement('h4');h.textContent='🎮 '+name;const p=document.createElement('p');p.textContent=u.hostname;const a=document.createElement('a');a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';a.className='action';a.style.display='inline-block';a.textContent='ABRIR JOGO ↗';card.append(h,p,a);document.getElementById('gameList').append(card);document.getElementById('gameName').value='';document.getElementById('gameUrl').value='';}catch(e){alert('Use um endereço válido começando com https://');}});
 </script>
 </body></html>
